@@ -1,0 +1,93 @@
+.form {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-end;
+}
+
+.variant-inline {
+  flex-direction: row;
+}
+
+.variant-stacked {
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.variant-stacked input,
+.variant-stacked select {
+  width: 100%;
+}
+
+.select {
+  padding: var(--spacing-md) 0;
+  border: none;
+  border-bottom: 2px solid var(--color-border-light);
+  background-color: transparent;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.select::placeholder {
+  color: var(--color-text-muted);
+}
+
+.select:focus {
+  outline: none;
+  border-bottom-color: var(--color-accent);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.2);
+}
+
+.select:hover {
+  border-bottom-color: var(--color-accent);
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.successMessage {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: rgba(0, 255, 102, 0.05);
+  border: 1px solid rgba(0, 255, 102, 0.2);
+  border-radius: var(--radius-md);
+  width: 100%;
+}
+
+.checkmark {
+  font-size: 1.5rem;
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.success {
+  background-color: rgba(0, 255, 102, 0.05);
+  border: 1px solid rgba(0, 255, 102, 0.2);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+}
+
+.success p {
+  color: var(--color-success);
+}
+
+@media (max-width: 768px) {
+  .form {
+    flex-direction: column;
+  }
+
+  .variant-inline {
+    flex-direction: column;
+  }
+
+  .form button {
+    width: 100%;
+  }
+}

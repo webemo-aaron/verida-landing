@@ -1,0 +1,115 @@
+.section {
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  background: linear-gradient(
+    180deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+  font-size: 2.25rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-3xl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-2xl);
+  margin-bottom: var(--spacing-4xl);
+}
+
+.stepNumber {
+  font-size: 2.5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+}
+
+.icon {
+  font-size: 3rem;
+  color: var(--color-accent);
+  opacity: 0.3;
+  margin-top: var(--spacing-xl);
+}
+
+.flow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-2xl);
+  background-color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+}
+
+.flowItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  white-space: nowrap;
+}
+
+.flowLabel {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.flowArrow {
+  color: var(--color-accent);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .grid {
+    gap: var(--spacing-lg);
+  }
+
+  .flow {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .flowItem {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .flowLabel {
+    width: 100%;
+    text-align: center;
+  }
+}
