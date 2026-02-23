@@ -78,7 +78,7 @@ verida-landing/
 
 **Key Features:**
 - Email form integrated with `/api/email/subscribe`
-- Social proof badge ("500+ operations teams")
+- Social proof badge ("Now in Early Access")
 - Responsive on mobile
 
 ### 2. How It Works

@@ -40,7 +40,7 @@ export function Hero() {
         animate="visible"
       >
         <motion.div variants={itemVariants}>
-          <p className={styles.badge}>Trusted by 500+ Operations Teams</p>
+          <p className={styles.badge}>Now in Early Access</p>
         </motion.div>
 
         <motion.h1 variants={itemVariants} className={styles.headline}>
