@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: NextRequest) {
   try {
     const { email, role, company } = await request.json();
@@ -16,9 +14,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Initialize Resend with API key at runtime
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     // Send confirmation email via Resend
     let emailSent = false;
-    let resendResponse = null;
     
     console.log("About to send email with Resend...");
     console.log("API Key exists:", !!process.env.RESEND_API_KEY);
@@ -55,7 +55,6 @@ export async function POST(request: NextRequest) {
         `,
       });
       
-      resendResponse = result;
       console.log("Resend API response:", JSON.stringify(result, null, 2));
       console.log("Result type:", typeof result);
       console.log("Result keys:", result ? Object.keys(result) : 'null');
