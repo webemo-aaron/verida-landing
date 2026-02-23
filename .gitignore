@@ -25,3 +25,4 @@ yarn-error.log*
 .turbo/
 .cache/
 .vercel
+.env*.local
