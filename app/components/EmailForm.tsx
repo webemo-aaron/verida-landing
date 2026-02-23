@@ -24,18 +24,23 @@ export function EmailForm({ variant = "inline", onSuccess }: EmailFormProps) {
     setLoading(true);
 
     try {
-      // Get reCAPTCHA token
+      // Get reCAPTCHA Enterprise token
       const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim();
       if (!siteKey) {
         throw new Error("reCAPTCHA not configured");
       }
 
       const token = await new Promise<string>((resolve, reject) => {
-        (window as any).grecaptcha.ready(() => {
-          (window as any).grecaptcha
-            .execute(siteKey, { action: "submit" })
-            .then(resolve)
-            .catch(reject);
+        (window as any).grecaptcha.enterprise.ready(async () => {
+          try {
+            const result = await (window as any).grecaptcha.enterprise.execute(
+              siteKey,
+              { action: "submit" }
+            );
+            resolve(result);
+          } catch (err) {
+            reject(err);
+          }
         });
       });
 
