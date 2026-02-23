@@ -68,16 +68,6 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Check your email for confirmation",
-        debug: {
-          emailSent,
-          hasApiKey: !!process.env.RESEND_API_KEY,
-          apiKeyPrefix: process.env.RESEND_API_KEY?.substring(0, 8),
-          error: emailError ? {
-            message: (emailError as any)?.message,
-            name: (emailError as any)?.name,
-            statusCode: (emailError as any)?.statusCode,
-          } : null,
-        },
       },
       { status: 200 }
     );
