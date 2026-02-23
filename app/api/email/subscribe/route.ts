@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     try {
       console.log("Calling resend.emails.send...");
       const result = await resend.emails.send({
-        from: "Verida <hello@mahoosuc.solutions>",
+        from: "Verida <onboarding@resend.dev>",
         to: email,
         subject: "Welcome to Verida Early Access",
         html: `
@@ -80,14 +80,6 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Check your email for confirmation",
-        debug: {
-          emailSent,
-          hasApiKey: !!process.env.RESEND_API_KEY,
-          resendData: resendResponse?.data,
-          resendError: resendResponse?.error,
-          resendResponseKeys: resendResponse ? Object.keys(resendResponse) : null,
-          catchError: emailError ? String(emailError) : null,
-        },
       },
       { status: 200 }
     );
