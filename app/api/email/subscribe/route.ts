@@ -58,7 +58,10 @@ export async function POST(request: NextRequest) {
       
       resendResponse = result;
       console.log("Resend API response:", JSON.stringify(result, null, 2));
-      console.log("Email ID:", result?.data?.id);
+      console.log("Result type:", typeof result);
+      console.log("Result keys:", result ? Object.keys(result) : 'null');
+      console.log("Email ID from data:", result?.data?.id);
+      console.log("Email ID from root:", (result as any)?.id);
       emailSent = true;
     } catch (err: any) {
       emailError = err;
@@ -80,7 +83,9 @@ export async function POST(request: NextRequest) {
         debug: {
           emailSent,
           hasApiKey: !!process.env.RESEND_API_KEY,
-          resendEmailId: resendResponse?.data?.id,
+          resendEmailIdFromData: resendResponse?.data?.id,
+          resendEmailIdFromRoot: (resendResponse as any)?.id,
+          resendResponseKeys: resendResponse ? Object.keys(resendResponse) : null,
           error: emailError ? String(emailError) : null,
         },
       },
