@@ -17,8 +17,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Send confirmation email via Resend
+    let emailSent = false;
+    let emailError = null;
+    
     try {
-      await resend.emails.send({
+      const result = await resend.emails.send({
         from: "Verida <onboarding@resend.dev>",
         to: email,
         subject: "Welcome to Verida Early Access",
@@ -46,18 +49,28 @@ export async function POST(request: NextRequest) {
           </div>
         `,
       });
-    } catch (emailError) {
-      console.error("Failed to send email:", emailError);
-      // Still return success to user even if email fails
+      
+      console.log("Email sent successfully:", result);
+      emailSent = true;
+    } catch (err) {
+      emailError = err;
+      console.error("Failed to send email:", err);
+      console.error("Error details:", JSON.stringify(err, null, 2));
+      // Continue execution - don't fail the whole request
     }
 
     // TODO: Store in Vercel Postgres when available
-    console.log("New email signup:", { email, role, company });
+    console.log("New email signup:", { email, role, company, emailSent });
 
     return NextResponse.json(
       {
         success: true,
         message: "Check your email for confirmation",
+        debug: {
+          emailSent,
+          hasApiKey: !!process.env.RESEND_API_KEY,
+          error: emailError ? String(emailError) : null,
+        },
       },
       { status: 200 }
     );
