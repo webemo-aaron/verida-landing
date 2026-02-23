@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     try {
       console.log("Calling resend.emails.send...");
       const result = await resend.emails.send({
-        from: "Verida <onboarding@resend.dev>",
+        from: "Verida <hello@updates.mahoosuc.solutions>",
         to: email,
         subject: "Welcome to Verida Early Access",
         html: `
