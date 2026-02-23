@@ -83,10 +83,10 @@ export async function POST(request: NextRequest) {
         debug: {
           emailSent,
           hasApiKey: !!process.env.RESEND_API_KEY,
-          resendEmailIdFromData: resendResponse?.data?.id,
-          resendEmailIdFromRoot: (resendResponse as any)?.id,
+          resendData: resendResponse?.data,
+          resendError: resendResponse?.error,
           resendResponseKeys: resendResponse ? Object.keys(resendResponse) : null,
-          error: emailError ? String(emailError) : null,
+          catchError: emailError ? String(emailError) : null,
         },
       },
       { status: 200 }
