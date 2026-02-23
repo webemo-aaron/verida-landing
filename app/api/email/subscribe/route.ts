@@ -3,7 +3,7 @@ import { Resend } from "resend";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, role, company } = await request.json();
+    const { email, role, company, recaptchaToken } = await request.json();
 
     // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -11,6 +11,39 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Invalid email address" },
         { status: 400 }
+      );
+    }
+
+    // Verify reCAPTCHA token
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { error: "reCAPTCHA validation failed" },
+        { status: 400 }
+      );
+    }
+
+    const recaptchaResponse = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
+      }
+    );
+
+    const recaptchaData = await recaptchaResponse.json();
+    console.log("reCAPTCHA verification response:", recaptchaData);
+
+    // Check if reCAPTCHA verification was successful and score is acceptable
+    if (!recaptchaData.success || (recaptchaData.score && recaptchaData.score < 0.5)) {
+      console.warn("reCAPTCHA failed or score too low:", {
+        success: recaptchaData.success,
+        score: recaptchaData.score,
+        email,
+      });
+      return NextResponse.json(
+        { error: "Spam detection failed. Please try again." },
+        { status: 403 }
       );
     }
 

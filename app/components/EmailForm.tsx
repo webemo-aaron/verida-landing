@@ -24,10 +24,21 @@ export function EmailForm({ variant = "inline", onSuccess }: EmailFormProps) {
     setLoading(true);
 
     try {
+      // Get reCAPTCHA token
+      const token = await (window as any).grecaptcha.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+        { action: "submit" }
+      );
+
       const response = await fetch("/api/email/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, role: role || "other", company }),
+        body: JSON.stringify({ 
+          email, 
+          role: role || "other", 
+          company,
+          recaptchaToken: token 
+        }),
       });
 
       if (!response.ok) {
