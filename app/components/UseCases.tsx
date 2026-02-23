@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardBody, CardHeader } from "./ui/Card";
+import { Card, CardBody } from "./ui/Card";
 import styles from "./UseCases.module.css";
 
 const useCases = [
@@ -56,7 +56,6 @@ export function UseCases() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut",
       },
     },
   };
