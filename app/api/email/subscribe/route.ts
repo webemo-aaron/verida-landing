@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     
     try {
       const result = await resend.emails.send({
-        from: "Verida <onboarding@resend.dev>",
+        from: "Verida <hello@mahoosuc.solutions>",
         to: email,
         subject: "Welcome to Verida Early Access",
         html: `
@@ -52,9 +52,11 @@ export async function POST(request: NextRequest) {
       
       console.log("Email sent successfully:", result);
       emailSent = true;
-    } catch (err) {
+    } catch (err: any) {
       emailError = err;
       console.error("Failed to send email:", err);
+      console.error("Error message:", err?.message);
+      console.error("Error response:", err?.response?.data);
       console.error("Error details:", JSON.stringify(err, null, 2));
       // Continue execution - don't fail the whole request
     }
@@ -69,7 +71,12 @@ export async function POST(request: NextRequest) {
         debug: {
           emailSent,
           hasApiKey: !!process.env.RESEND_API_KEY,
-          error: emailError ? String(emailError) : null,
+          apiKeyPrefix: process.env.RESEND_API_KEY?.substring(0, 8),
+          error: emailError ? {
+            message: (emailError as any)?.message,
+            name: (emailError as any)?.name,
+            statusCode: (emailError as any)?.statusCode,
+          } : null,
         },
       },
       { status: 200 }
