@@ -19,8 +19,14 @@ export async function POST(request: NextRequest) {
     // Send confirmation email via Resend
     let emailSent = false;
     let emailError = null;
+    let resendResponse = null;
+    
+    console.log("About to send email with Resend...");
+    console.log("API Key exists:", !!process.env.RESEND_API_KEY);
+    console.log("API Key prefix:", process.env.RESEND_API_KEY?.substring(0, 10));
     
     try {
+      console.log("Calling resend.emails.send...");
       const result = await resend.emails.send({
         from: "Verida <hello@mahoosuc.solutions>",
         to: email,
@@ -50,14 +56,17 @@ export async function POST(request: NextRequest) {
         `,
       });
       
-      console.log("Email sent successfully:", result);
+      resendResponse = result;
+      console.log("Resend API response:", JSON.stringify(result, null, 2));
+      console.log("Email ID:", result?.data?.id);
       emailSent = true;
     } catch (err: any) {
       emailError = err;
-      console.error("Failed to send email:", err);
+      console.error("RESEND ERROR - Failed to send email:", err);
       console.error("Error message:", err?.message);
-      console.error("Error response:", err?.response?.data);
-      console.error("Error details:", JSON.stringify(err, null, 2));
+      console.error("Error name:", err?.name);
+      console.error("Error statusCode:", err?.statusCode);
+      console.error("Full error object:", JSON.stringify(err, Object.getOwnPropertyNames(err), 2));
       // Continue execution - don't fail the whole request
     }
 
@@ -68,6 +77,12 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Check your email for confirmation",
+        debug: {
+          emailSent,
+          hasApiKey: !!process.env.RESEND_API_KEY,
+          resendEmailId: resendResponse?.data?.id,
+          error: emailError ? String(emailError) : null,
+        },
       },
       { status: 200 }
     );
