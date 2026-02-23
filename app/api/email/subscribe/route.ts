@@ -18,7 +18,6 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email via Resend
     let emailSent = false;
-    let emailError = null;
     let resendResponse = null;
     
     console.log("About to send email with Resend...");
@@ -64,7 +63,6 @@ export async function POST(request: NextRequest) {
       console.log("Email ID from root:", (result as any)?.id);
       emailSent = true;
     } catch (err: any) {
-      emailError = err;
       console.error("RESEND ERROR - Failed to send email:", err);
       console.error("Error message:", err?.message);
       console.error("Error name:", err?.name);
