@@ -25,10 +25,19 @@ export function EmailForm({ variant = "inline", onSuccess }: EmailFormProps) {
 
     try {
       // Get reCAPTCHA token
-      const token = await (window as any).grecaptcha.execute(
-        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
-        { action: "submit" }
-      );
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim();
+      if (!siteKey) {
+        throw new Error("reCAPTCHA not configured");
+      }
+
+      const token = await new Promise<string>((resolve, reject) => {
+        (window as any).grecaptcha.ready(() => {
+          (window as any).grecaptcha
+            .execute(siteKey, { action: "submit" })
+            .then(resolve)
+            .catch(reject);
+        });
+      });
 
       const response = await fetch("/api/email/subscribe", {
         method: "POST",
